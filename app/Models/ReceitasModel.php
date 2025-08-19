@@ -9,12 +9,12 @@ class ReceitasModel
         try {
             $db = new Database();
             $query = "SELECT * FROM receitas";
-            $result = $db->prepare($query);
-            $result->execute();
+            $stmt = $db->prepare($query);
+            $stmt->execute();
 
-            return $result->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $err) {
-            throw $err;
+            echo "Erro ao listar receitas: " . $err->getMessage();
         }
     }
 
@@ -23,8 +23,8 @@ class ReceitasModel
         try {
             $db = new Database();
             $query = "INSERT INTO receitas (titulo, descricao, ingredientes, modo_preparo) VALUES (?, ?, ?, ?, ?, ?)";
-            $result = $db->prepare($query);
-            $result->execute([$titulo, $descricao, $ingredientes, $modo_preparo]);
+            $stmt = $db->prepare($query);
+            $stmt->execute([$titulo, $descricao, $ingredientes, $modo_preparo]);
         } catch (Exception $err) {
             echo "Erro ao criar receita " . $err->getMessage();
         }
@@ -41,6 +41,18 @@ class ReceitasModel
             $stmt->execute([$titulo, $descricao, $ingredientes, $modo_preparo, $id]);
         } catch (Exception $err) {
             echo "Erro ao atualizar receita: " . $err->getMessage();
+        }
+    }
+
+    public function deletarReceita($id)
+    {
+        try {
+            $db = new Database();
+            $query = "DELETE FROM receitas WHERE id = ?";
+            $stmt = $db->prepare($query);
+            $stmt->execute([$id]);
+        } catch (Exception $err) {
+            echo "Erro ao deletar receita: " . $err->getMessage();
         }
     }
 }
