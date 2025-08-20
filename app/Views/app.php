@@ -218,6 +218,10 @@
 
             const data = {
                 id: this.id.value,
+                titulo: this.titulo.value,
+                descricao: this.descricao.value,
+                ingredientes: this.ingredientes.value,
+                modo_preparo: this.modo_preparo.value
             };
 
             fetch(`api/receitas`, {
