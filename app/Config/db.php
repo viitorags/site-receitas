@@ -24,13 +24,18 @@ class Database
             $dsn = "mysql:host={$dbHost};port={$dbPort};dbname={$dbName};charset=utf8mb4";
             $this->db = new PDO($dsn, $dbUser, $dbPassword);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            echo "Erro na conexão: " . $e->getMessage();
+        } catch (PDOException $err) {
+            echo "Erro na conexão: " . $err->getMessage();
+            $this->db = null;
+            return;
         }
     }
 
     public function __call($method, $args)
     {
+        if ($this->db === null) {
+            throw new Exception("Banco de dados não conectado.");
+        }
         return call_user_func_array([$this->db, $method], $args);
     }
 }

@@ -22,7 +22,7 @@ class ReceitasModel
     {
         try {
             $db = new Database();
-            $query = "INSERT INTO receitas (titulo, descricao, ingredientes, modo_preparo) VALUES (?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO receitas (titulo, descricao, ingredientes, modo_preparo) VALUES (?, ?, ?, ?)";
             $stmt = $db->prepare($query);
             $stmt->execute([$titulo, $descricao, $ingredientes, $modo_preparo]);
         } catch (Exception $err) {
